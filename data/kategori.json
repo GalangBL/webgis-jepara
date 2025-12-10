@@ -1,0 +1,50 @@
+[
+    {
+        "nama": "Sekolah",
+        "icon": "school",
+        "warna": "#3b82f6",
+        "deskripsi": "Fasilitas pendidikan dasar dan menengah"
+    },
+    {
+        "nama": "Rumah Sakit",
+        "icon": "hospital",
+        "warna": "#ef4444",
+        "deskripsi": "Fasilitas kesehatan dan rumah sakit"
+    },
+    {
+        "nama": "Kantor Pemerintahan",
+        "icon": "building-2",
+        "warna": "#8b5cf6",
+        "deskripsi": "Gedung pemerintahan dan instansi publik"
+    },
+    {
+        "nama": "Masjid",
+        "icon": "landmark",
+        "warna": "#10b981",
+        "deskripsi": "Tempat ibadah umat Islam"
+    },
+    {
+        "nama": "Taman",
+        "icon": "trees",
+        "warna": "#22c55e",
+        "deskripsi": "Taman kota dan ruang terbuka hijau"
+    },
+    {
+        "nama": "Pasar",
+        "icon": "shopping-bag",
+        "warna": "#f59e0b",
+        "deskripsi": "Pasar tradisional dan modern"
+    },
+    {
+        "nama": "Bank",
+        "icon": "landmark",
+        "warna": "#eab308",
+        "deskripsi": "Lembaga keuangan dan perbankan"
+    },
+    {
+        "nama": "Universitas",
+        "icon": "graduation-cap",
+        "warna": "#06b6d4",
+        "deskripsi": "Perguruan tinggi dan universitas"
+    }
+]

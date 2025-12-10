@@ -1,0 +1,438 @@
+/* ============================================
+   RESPONSIVE STYLES - MOBILE & TABLET
+   ============================================ */
+
+/* ============================================
+   TABLET (768px - 1024px)
+   ============================================ */
+@media screen and (max-width: 1024px) {
+
+    /* Header Stats - Stack vertically on tablet */
+    .header-stats {
+        gap: var(--spacing-md);
+    }
+
+    .stat-card {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .stat-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .stat-info h3 {
+        font-size: 1.25rem;
+    }
+
+    .stat-info p {
+        font-size: 0.7rem;
+    }
+
+    /* Sidebar lebih ramping */
+    .sidebar {
+        width: 320px;
+    }
+
+    /* Table font lebih kecil */
+    .data-table {
+        font-size: 0.8125rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* ============================================
+   MOBILE (< 768px)
+   ============================================ */
+@media screen and (max-width: 768px) {
+
+    /* Header - Stack layout */
+    .header {
+        padding: var(--spacing-md);
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+
+    .header-left {
+        gap: var(--spacing-sm);
+    }
+
+    .logo-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .header-text h1 {
+        font-size: 1.125rem;
+    }
+
+    .header-text p {
+        font-size: 0.8125rem;
+    }
+
+    .header-stats {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .stat-card {
+        flex: 1;
+        min-width: 150px;
+        padding: var(--spacing-sm);
+    }
+
+    .stat-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .stat-info h3 {
+        font-size: 1.125rem;
+    }
+
+    .stat-info p {
+        font-size: 0.6875rem;
+    }
+
+    /* Container - Stack vertically */
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    /* Sidebar - Full width & collapsible */
+    .sidebar {
+        width: 100%;
+        max-height: 50vh;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-tabs {
+        overflow-x: auto;
+    }
+
+    .tab-btn {
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: var(--spacing-sm);
+        font-size: 0.75rem;
+    }
+
+    .tab-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .tab-btn span {
+        display: none;
+    }
+
+    .tab-content {
+        padding: var(--spacing-md);
+    }
+
+    /* Form - Adjust spacing */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 16px;
+        /* Prevent zoom on iOS */
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    /* Main Content */
+    .main-content {
+        height: 60vh;
+    }
+
+    .map-wrapper {
+        min-height: 400px;
+    }
+
+    .map-controls {
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+    }
+
+    .map-control-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .map-control-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Table Container */
+    .table-container {
+        max-height: 300px;
+    }
+
+    .table-header {
+        padding: var(--spacing-sm) var(--spacing-md);
+        flex-wrap: wrap;
+    }
+
+    .table-title h3 {
+        font-size: 0.9375rem;
+    }
+
+    .data-table {
+        font-size: 0.75rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    /* Hide beberapa kolom di mobile */
+    .data-table th:nth-child(4),
+    .data-table td:nth-child(4) {
+        display: none;
+        /* Hide Alamat */
+    }
+
+    .data-table th:nth-child(5),
+    .data-table td:nth-child(5) {
+        display: none;
+        /* Hide Koordinat */
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-action {
+        width: 28px;
+        height: 28px;
+    }
+
+    .btn-action svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+
+    .modal-header {
+        padding: var(--spacing-md);
+    }
+
+    .modal-header h3 {
+        font-size: 1.125rem;
+    }
+
+    .modal-body {
+        padding: var(--spacing-md);
+    }
+
+    /* Toast */
+    .toast {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+        left: var(--spacing-md);
+        max-width: calc(100% - 2rem);
+    }
+
+    /* Chart */
+    .chart-container {
+        padding: var(--spacing-md);
+    }
+
+    .stats-list {
+        padding: var(--spacing-md);
+    }
+
+    /* Checkbox group */
+    .checkbox-group {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+}
+
+/* ============================================
+   SMALL MOBILE (< 480px)
+   ============================================ */
+@media screen and (max-width: 480px) {
+
+    :root {
+        font-size: 14px;
+    }
+
+    .header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .header-text h1 {
+        font-size: 1rem;
+    }
+
+    .header-stats {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .sidebar {
+        max-height: 60vh;
+    }
+
+    .tab-content {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .section-header h3 {
+        font-size: 1rem;
+    }
+
+    .main-content {
+        height: 50vh;
+    }
+
+    .map-wrapper {
+        min-height: 300px;
+    }
+
+    .table-container {
+        max-height: 250px;
+    }
+
+    /* Sembunyikan No di tabel untuk save space */
+    .data-table th:nth-child(1),
+    .data-table td:nth-child(1) {
+        display: none;
+    }
+}
+
+/* ============================================
+   LANDSCAPE MOBILE
+   ============================================ */
+@media screen and (max-width: 896px) and (orientation: landscape) {
+
+    .header {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .header-stats {
+        display: none;
+        /* Hide stats di landscape untuk save space */
+    }
+
+    .container {
+        flex-direction: row;
+        height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+        width: 280px;
+        max-height: 100%;
+        border-right: 1px solid var(--border-color);
+        border-bottom: none;
+    }
+
+    .main-content {
+        height: 100%;
+    }
+
+    .table-container {
+        max-height: 35vh;
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+
+    .header-stats,
+    .sidebar,
+    .map-controls,
+    .action-buttons,
+    .form-actions,
+    .toast,
+    .modal {
+        display: none !important;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .map-wrapper {
+        height: 400px;
+    }
+
+    .table-container {
+        max-height: none;
+        page-break-inside: avoid;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITY - High Contrast Mode
+   ============================================ */
+@media (prefers-contrast: high) {
+
+    :root {
+        --bg-primary: #000000;
+        --bg-secondary: #1a1a1a;
+        --bg-tertiary: #2d2d2d;
+        --text-primary: #ffffff;
+        --border-color: #666666;
+    }
+
+    .btn-primary,
+    .btn-success,
+    .btn-danger {
+        border: 2px solid currentColor;
+    }
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

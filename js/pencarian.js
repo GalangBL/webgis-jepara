@@ -14,12 +14,12 @@ let timeoutPencarian = null;
 // Base URL untuk Nominatim API (OpenStreetMap)
 const NOMINATIM_BASE_URL = "https://nominatim.openstreetmap.org/search";
 
-// Bounding box untuk area Jepara (diperluas untuk hasil lebih baik)
+// Bounding box untuk area Jepara (lebih presisi)
 const JEPARA_BBOX = {
-  south: -6.9,
-  west: 110.3,
-  north: -6.2,
-  east: 111.1,
+  south: -6.78,
+  west: 110.46,
+  north: -6.42,
+  east: 110.82,
 };
 
 // ============================================
@@ -64,7 +64,7 @@ function setupPencarianCerdas() {
   // Event listener untuk tombol cari
   if (btnCariLokasi) {
     btnCariLokasi.addEventListener("click", () => {
-      const query = inputPencarian.value.trim();
+      const query = inputPencarian ? inputPencarian.value.trim() : "";
       if (query.length >= 3) {
         cariLokasi(query);
       } else {
@@ -80,7 +80,9 @@ function setupPencarianCerdas() {
   quickSearchButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const query = btn.getAttribute("data-query");
-      inputPencarian.value = query;
+      if (inputPencarian) {
+        inputPencarian.value = query;
+      }
       cariLokasi(query);
     });
   });
@@ -187,6 +189,10 @@ async function cariLokasi(query) {
               "info"
             );
           }
+        } else {
+          console.warn(
+            `HTTP Error ${response.status} untuk query: ${searchQuery}`
+          );
         }
       } catch (err) {
         console.warn(`Gagal mencari dengan query: ${searchQuery}`, err);
@@ -426,7 +432,9 @@ function pilihHasilPencarian(index, lat, lon, nama, alamat) {
   );
 
   // Tambahkan marker sementara di peta
-  tambahMarkerSementara(latitude, longitude);
+  if (typeof tambahMarkerSementara === "function") {
+    tambahMarkerSementara(latitude, longitude);
+  }
 
   // Pan peta ke lokasi
   if (peta) {
@@ -897,6 +905,12 @@ async function cariAlamatDariKoordinat(lat, lng) {
       const inputAlamat = document.getElementById("inputAlamat");
       if (inputAlamat && !inputAlamat.value.trim()) {
         inputAlamat.value = data.display_name;
+
+        // Update preview juga
+        const previewAlamat = document.getElementById("previewAlamat");
+        if (previewAlamat) {
+          previewAlamat.textContent = data.display_name;
+        }
       }
 
       logConsole(`Alamat ditemukan: ${data.display_name}`, "success");
@@ -1127,7 +1141,9 @@ function dapatkanLokasiSayaForm() {
       );
 
       // Tambahkan marker sementara
-      tambahMarkerSementara(lat, lng);
+      if (typeof tambahMarkerSementara === "function") {
+        tambahMarkerSementara(lat, lng);
+      }
 
       // Pan peta ke lokasi
       if (peta) {
@@ -1145,6 +1161,7 @@ function dapatkanLokasiSayaForm() {
 
       // Cari alamat berdasarkan koordinat
       cariAlamatDariKoordinat(lat, lng);
+      riKoordinat(lat, lng);
 
       tampilkanNotifikasi(
         "success",

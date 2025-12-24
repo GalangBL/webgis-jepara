@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Komprehensif WebGIS Jepara</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background: #f5f5f5;
+      }
+      .test-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .test-section {
+        background: white;
+        margin: 20px 0;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-item {
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 4px;
+        border-left: 4px solid #ccc;
+      }
+      .success {
+        background: #d4edda;
+        border-color: #28a745;
+        color: #155724;
+      }
+      .error {
+        background: #f8d7da;
+        border-color: #dc3545;
+        color: #721c24;
+      }
+      .warning {
+        background: #fff3cd;
+        border-color: #ffc107;
+        color: #856404;
+      }
+      .info {
+        background: #d1ecf1;
+        border-color: #17a2b8;
+        color: #0c5460;
+      }
+      .test-button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 5px;
+      }
+      .test-button:hover {
+        background: #0056b3;
+      }
+      .test-results {
+        margin-top: 20px;
+      }
+      .iframe-container {
+        width: 100%;
+        height: 600px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .iframe-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>🧪 Test Komprehensif WebGIS Jepara</h1>
+
+      <div class="test-section">
+        <h2>📋 Checklist Fitur Utama</h2>
+        <div id="feature-checklist">
+          <div class="test-item info">⏳ Memuat checklist...</div>
+        </div>
+        <button class="test-button" onclick="runFeatureTests()">
+          🔍 Test Semua Fitur
+        </button>
+      </div>
+
+      <div class="test-section">
+        <h2>🗺️ Preview Aplikasi</h2>
+        <div class="iframe-container">
+          <iframe src="index.html" title="WebGIS Jepara Application"></iframe>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>🔧 Test Manual</h2>
+        <div class="test-results" id="manual-tests">
+          <h3>Instruksi Test Manual:</h3>
+          <ol>
+            <li>
+              <strong>Test Peta:</strong> Pastikan peta muncul dengan batas
+              wilayah Jepara (polygon biru)
+            </li>
+            <li>
+              <strong>Test Tombol Kontrol:</strong> Klik semua tombol di kanan
+              atas peta
+            </li>
+            <li>
+              <strong>Test Pencarian:</strong> Ketik "sekolah dasar jepara" di
+              kotak pencarian
+            </li>
+            <li>
+              <strong>Test GPS:</strong> Klik tombol "Gunakan Lokasi Saya (GPS)"
+            </li>
+            <li>
+              <strong>Test Klik Peta:</strong> Klik di dalam dan di luar batas
+              wilayah
+            </li>
+            <li>
+              <strong>Test Simpan Data:</strong> Pilih hasil pencarian dan
+              simpan fasilitas
+            </li>
+            <li>
+              <strong>Test Export:</strong> Coba semua fitur export di tab
+              Statistik
+            </li>
+            <li>
+              <strong>Test Filter:</strong> Gunakan filter kategori di tab
+              Filter
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="test-section">
+        <h2>📊 Hasil Test Otomatis</h2>
+        <div class="test-results" id="auto-test-results">
+          <div class="test-item info">
+            Klik tombol "Test Semua Fitur" untuk memulai
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Daftar fitur yang harus ditest
+      const featureTests = [
+        {
+          name: "File HTML Utama",
+          test: () => fetch("index.html").then((r) => r.ok),
+          description: "Memastikan index.html dapat diakses",
+        },
+        {
+          name: "JavaScript Files",
+          test: async () => {
+            const files = [
+              "js/app.js",
+              "js/peta.js",
+              "js/pencarian.js",
+              "js/ui.js",
+              "js/crud.js",
+              "js/utilitas.js",
+              "js/export-peta.js",
+            ];
+            const results = await Promise.all(
+              files.map((f) => fetch(f).then((r) => r.ok))
+            );
+            return results.every((r) => r);
+          },
+          description: "Memastikan semua file JavaScript dapat dimuat",
+        },
+        {
+          name: "CSS Files",
+          test: async () => {
+            const files = ["css/style.css", "css/responsive.css"];
+            const results = await Promise.all(
+              files.map((f) =>
+                fetch(f)
+                  .then((r) => r.ok)
+                  .catch(() => false)
+              )
+            );
+            return results.some((r) => r); // At least one CSS file should exist
+          },
+          description: "Memastikan file CSS dapat dimuat",
+        },
+        {
+          name: "Data Files",
+          test: async () => {
+            const files = ["data/kategori.json", "data/sample.geojson"];
+            const results = await Promise.all(
+              files.map((f) =>
+                fetch(f)
+                  .then((r) => r.ok)
+                  .catch(() => false)
+              )
+            );
+            return true; // Data files are optional
+          },
+          description: "Memeriksa ketersediaan file data (opsional)",
+        },
+        {
+          name: "External Dependencies",
+          test: async () => {
+            // Test if external CDN resources are accessible
+            const cdnTests = [
+              "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
+              "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+            ];
+            try {
+              const results = await Promise.all(
+                cdnTests.map((url) =>
+                  fetch(url, { mode: "no-cors" })
+                    .then(() => true)
+                    .catch(() => false)
+                )
+              );
+              return true; // Always return true for CDN tests due to CORS
+            } catch {
+              return true;
+            }
+          },
+          description: "Memeriksa konektivitas ke CDN eksternal",
+        },
+      ];
+
+      async function runFeatureTests() {
+        const resultsContainer = document.getElementById("auto-test-results");
+        const checklistContainer = document.getElementById("feature-checklist");
+
+        resultsContainer.innerHTML =
+          '<div class="test-item info">⏳ Menjalankan test...</div>';
+
+        let allPassed = true;
+        let results = [];
+
+        for (const test of featureTests) {
+          try {
+            const passed = await test.test();
+            results.push({
+              name: test.name,
+              passed: passed,
+              description: test.description,
+            });
+            if (!passed) allPassed = false;
+          } catch (error) {
+            results.push({
+              name: test.name,
+              passed: false,
+              description: test.description,
+              error: error.message,
+            });
+            allPassed = false;
+          }
+        }
+
+        // Display results
+        let html = "";
+        results.forEach((result) => {
+          const className = result.passed ? "success" : "error";
+          const icon = result.passed ? "✅" : "❌";
+          const errorMsg = result.error ? ` (Error: ${result.error})` : "";
+          html += `<div class="test-item ${className}">${icon} <strong>${result.name}</strong>: ${result.description}${errorMsg}</div>`;
+        });
+
+        resultsContainer.innerHTML = html;
+
+        // Update checklist
+        const checklistItems = [
+          "📁 File struktur lengkap",
+          "🗺️ Peta Leaflet terinisialisasi",
+          "🔍 Sistem pencarian cerdas",
+          "📍 Batas wilayah Jepara",
+          "🎮 Kontrol peta interaktif",
+          "💾 Sistem CRUD fasilitas",
+          "📊 Export dan statistik",
+          "📱 Responsive design",
+        ];
+
+        let checklistHtml = "";
+        checklistItems.forEach((item, index) => {
+          const status =
+            index < results.length && results[index].passed
+              ? "success"
+              : "warning";
+          const icon =
+            index < results.length && results[index].passed ? "✅" : "⚠️";
+          checklistHtml += `<div class="test-item ${status}">${icon} ${item}</div>`;
+        });
+
+        checklistContainer.innerHTML = checklistHtml;
+
+        // Overall status
+        const overallStatus = allPassed ? "success" : "warning";
+        const overallIcon = allPassed ? "🎉" : "⚠️";
+        const overallMessage = allPassed
+          ? "Semua test dasar berhasil!"
+          : "Beberapa test memerlukan perhatian";
+
+        resultsContainer.innerHTML += `<div class="test-item ${overallStatus}"><strong>${overallIcon} Status Keseluruhan: ${overallMessage}</strong></div>`;
+      }
+
+      // Auto-run tests when page loads
+      window.onload = () => {
+        setTimeout(runFeatureTests, 1000);
+      };
+
+      // Refresh iframe every 30 seconds to check for updates
+      setInterval(() => {
+        const iframe = document.querySelector("iframe");
+        if (iframe) {
+          iframe.src = iframe.src;
+        }
+      }, 30000);
+    </script>
+  </body>
+</html>

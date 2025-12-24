@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing Page Test - WebGIS Jepara</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f172a;
+        color: #f1f5f9;
+        padding: 2rem;
+        line-height: 1.6;
+      }
+      .test-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #1e293b;
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid #475569;
+      }
+      .test-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        background: #334155;
+        border-radius: 0.5rem;
+        border-left: 4px solid #3b82f6;
+      }
+      .test-status {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      .success {
+        background: #10b981;
+        color: white;
+      }
+      .error {
+        background: #ef4444;
+        color: white;
+      }
+      .warning {
+        background: #f59e0b;
+        color: white;
+      }
+      .btn {
+        background: #3b82f6;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0.5rem;
+        transition: all 0.3s ease;
+      }
+      .btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+      }
+      h1 {
+        color: #3b82f6;
+      }
+      h2 {
+        color: #10b981;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test-container">
+      <h1>🧪 Landing Page Test Suite</h1>
+      <p>
+        Comprehensive test untuk memverifikasi semua fitur landing page WebGIS
+        Jepara
+      </p>
+
+      <h2>📁 File Structure Tests</h2>
+      <div id="fileTests"></div>
+
+      <h2>🎨 CSS & Styling Tests</h2>
+      <div id="styleTests"></div>
+
+      <h2>🔗 Navigation Tests</h2>
+      <div id="navTests"></div>
+
+      <h2>📱 Responsive Tests</h2>
+      <div id="responsiveTests"></div>
+
+      <div style="margin-top: 2rem; text-align: center">
+        <a href="index.html" class="btn">🏠 Test Index Redirect</a>
+        <a href="home.html" class="btn">🎨 Test Landing Page</a>
+        <a href="app.html" class="btn">🗺️ Test WebGIS App</a>
+      </div>
+
+      <div id="testResults" style="margin-top: 2rem"></div>
+    </div>
+
+    <script>
+      // Test Suite untuk Landing Page
+      class LandingPageTester {
+        constructor() {
+          this.tests = [];
+          this.results = {
+            passed: 0,
+            failed: 0,
+            warnings: 0,
+          };
+        }
+
+        addTest(name, testFn, category = "general") {
+          this.tests.push({ name, testFn, category });
+        }
+
+        async runTests() {
+          console.log("🧪 Starting Landing Page Tests...");
+
+          // File Structure Tests
+          this.addTest(
+            "index.html exists",
+            () => this.checkFileExists("/"),
+            "file"
+          );
+          this.addTest(
+            "home.html exists",
+            () => this.checkFileExists("/home.html"),
+            "file"
+          );
+          this.addTest(
+            "app.html exists",
+            () => this.checkFileExists("/app.html"),
+            "file"
+          );
+          this.addTest(
+            "landing.css exists",
+            () => this.checkFileExists("/css/landing.css"),
+            "file"
+          );
+
+          // CSS Tests
+          this.addTest(
+            "CSS Variables defined",
+            () => this.checkCSSVariables(),
+            "style"
+          );
+          this.addTest(
+            "Responsive breakpoints",
+            () => this.checkResponsiveCSS(),
+            "style"
+          );
+          this.addTest(
+            "Animation keyframes",
+            () => this.checkAnimations(),
+            "style"
+          );
+
+          // Navigation Tests
+          this.addTest(
+            "Index redirect works",
+            () => this.checkIndexRedirect(),
+            "nav"
+          );
+          this.addTest(
+            "CTA buttons present",
+            () => this.checkCTAButtons(),
+            "nav"
+          );
+          this.addTest(
+            "Anchor links work",
+            () => this.checkAnchorLinks(),
+            "nav"
+          );
+
+          // Responsive Tests
+          this.addTest(
+            "Mobile viewport",
+            () => this.checkMobileViewport(),
+            "responsive"
+          );
+          this.addTest(
+            "Grid layouts",
+            () => this.checkGridLayouts(),
+            "responsive"
+          );
+
+          // Run all tests
+          for (const test of this.tests) {
+            await this.runSingleTest(test);
+          }
+
+          this.displayResults();
+        }
+
+        async runSingleTest(test) {
+          try {
+            const result = await test.testFn();
+            this.displayTest(
+              test.name,
+              result ? "success" : "error",
+              test.category
+            );
+            if (result) {
+              this.results.passed++;
+            } else {
+              this.results.failed++;
+            }
+          } catch (error) {
+            console.error(`Test failed: ${test.name}`, error);
+            this.displayTest(test.name, "error", test.category, error.message);
+            this.results.failed++;
+          }
+        }
+
+        displayTest(name, status, category, message = "") {
+          const container = document.getElementById(
+            category === "file"
+              ? "fileTests"
+              : category === "style"
+              ? "styleTests"
+              : category === "nav"
+              ? "navTests"
+              : category === "responsive"
+              ? "responsiveTests"
+              : "fileTests"
+          );
+
+          const testItem = document.createElement("div");
+          testItem.className = "test-item";
+          testItem.innerHTML = `
+                    <div class="test-status ${status}">${
+            status === "success" ? "✓" : "✗"
+          }</div>
+                    <div>
+                        <strong>${name}</strong>
+                        ${
+                          message
+                            ? `<br><small style="color: #94a3b8;">${message}</small>`
+                            : ""
+                        }
+                    </div>
+                `;
+          container.appendChild(testItem);
+        }
+
+        async checkFileExists(path) {
+          try {
+            const response = await fetch(path, { method: "HEAD" });
+            return response.ok;
+          } catch (error) {
+            return false;
+          }
+        }
+
+        checkCSSVariables() {
+          // Check if CSS custom properties are supported
+          return CSS.supports("color", "var(--primary-blue)");
+        }
+
+        checkResponsiveCSS() {
+          // Check if CSS Grid is supported
+          return CSS.supports("display", "grid");
+        }
+
+        checkAnimations() {
+          // Check if CSS animations are supported
+          return CSS.supports("animation", "fadeInUp 0.8s ease-out");
+        }
+
+        async checkIndexRedirect() {
+          try {
+            const response = await fetch("/");
+            const text = await response.text();
+            return (
+              text.includes('meta http-equiv="refresh"') ||
+              text.includes("home.html")
+            );
+          } catch (error) {
+            return false;
+          }
+        }
+
+        async checkCTAButtons() {
+          try {
+            const response = await fetch("/home.html");
+            const text = await response.text();
+            return (
+              text.includes("btn-primary") && text.includes("Buka Aplikasi")
+            );
+          } catch (error) {
+            return false;
+          }
+        }
+
+        async checkAnchorLinks() {
+          try {
+            const response = await fetch("/home.html");
+            const text = await response.text();
+            return text.includes('href="#features"') && text.includes("smooth");
+          } catch (error) {
+            return false;
+          }
+        }
+
+        checkMobileViewport() {
+          const viewport = document.querySelector('meta[name="viewport"]');
+          return viewport && viewport.content.includes("width=device-width");
+        }
+
+        checkGridLayouts() {
+          // Check if browser supports CSS Grid
+          return window.CSS && CSS.supports("display", "grid");
+        }
+
+        displayResults() {
+          const resultsDiv = document.getElementById("testResults");
+          const total =
+            this.results.passed + this.results.failed + this.results.warnings;
+          const percentage =
+            total > 0 ? Math.round((this.results.passed / total) * 100) : 0;
+
+          resultsDiv.innerHTML = `
+                    <div style="background: #334155; padding: 1.5rem; border-radius: 0.5rem; text-align: center;">
+                        <h3 style="color: ${
+                          percentage >= 80
+                            ? "#10b981"
+                            : percentage >= 60
+                            ? "#f59e0b"
+                            : "#ef4444"
+                        };">
+                            Test Results: ${percentage}% Passed
+                        </h3>
+                        <p>
+                            ✅ Passed: ${this.results.passed} | 
+                            ❌ Failed: ${this.results.failed} | 
+                            ⚠️ Warnings: ${this.results.warnings}
+                        </p>
+                        <div style="margin-top: 1rem;">
+                            ${
+                              percentage >= 80
+                                ? '<p style="color: #10b981;">🎉 Landing page is ready for production!</p>'
+                                : '<p style="color: #f59e0b;">⚠️ Some issues need to be addressed.</p>'
+                            }
+                        </div>
+                    </div>
+                `;
+        }
+      }
+
+      // Initialize and run tests when page loads
+      document.addEventListener("DOMContentLoaded", async () => {
+        const tester = new LandingPageTester();
+        await tester.runTests();
+      });
+    </script>
+  </body>
+</html>

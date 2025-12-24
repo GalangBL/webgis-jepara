@@ -156,6 +156,16 @@ function setupEventListeners() {
     btnLokasiSaya.addEventListener("click", dapatkanLokasiSaya);
   }
 
+  const btnZoomJepara = document.getElementById("btnZoomJepara");
+  if (btnZoomJepara) {
+    btnZoomJepara.addEventListener("click", zoomKeBatasJepara);
+  }
+
+  const btnToggleBatas = document.getElementById("btnToggleBatas");
+  if (btnToggleBatas) {
+    btnToggleBatas.addEventListener("click", toggleBatasWilayah);
+  }
+
   const btnToggleKoordinat = document.getElementById("btnToggleKoordinat");
   if (btnToggleKoordinat) {
     btnToggleKoordinat.addEventListener("click", toggleKoordinatDisplay);
@@ -396,7 +406,18 @@ function tampilkanNotifikasi(tipe, pesan) {
 function updateChartKategori() {
   const ctx = document.getElementById("chartKategori");
 
-  if (!ctx) return;
+  if (!ctx) {
+    console.warn("Element chartKategori tidak ditemukan");
+    return;
+  }
+
+  // Cek apakah Chart.js tersedia
+  if (typeof Chart === "undefined") {
+    console.warn("Chart.js tidak tersedia");
+    ctx.innerHTML =
+      '<p style="text-align: center; color: #64748b; padding: 20px;">Chart tidak tersedia</p>';
+    return;
+  }
 
   // Hitung jumlah per kategori
   const kategoriCount = {};
@@ -419,47 +440,53 @@ function updateChartKategori() {
     chartKategori.destroy();
   }
 
-  // Buat chart baru
-  chartKategori = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          data: data,
-          backgroundColor: colors,
-          borderColor: "#1e293b",
-          borderWidth: 2,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: {
-          position: "bottom",
-          labels: {
-            color: "#f1f5f9",
-            padding: 10,
-            font: {
-              size: 12,
-              family: "Inter",
+  try {
+    // Buat chart baru
+    chartKategori = new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            data: data,
+            backgroundColor: colors,
+            borderColor: "#1e293b",
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: {
+              color: "#f1f5f9",
+              padding: 10,
+              font: {
+                size: 12,
+                family: "Inter",
+              },
             },
           },
-        },
-        tooltip: {
-          backgroundColor: "#0f172a",
-          titleColor: "#f1f5f9",
-          bodyColor: "#94a3b8",
-          borderColor: "#475569",
-          borderWidth: 1,
-          padding: 12,
-          displayColors: true,
+          tooltip: {
+            backgroundColor: "#0f172a",
+            titleColor: "#f1f5f9",
+            bodyColor: "#94a3b8",
+            borderColor: "#475569",
+            borderWidth: 1,
+            padding: 12,
+            displayColors: true,
+          },
         },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.error("Error membuat chart:", error);
+    ctx.innerHTML =
+      '<p style="text-align: center; color: #ef4444; padding: 20px;">Gagal memuat chart</p>';
+  }
 }
 
 // ============================================

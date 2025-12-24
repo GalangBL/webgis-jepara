@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test WebGIS App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .test-result {
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 4px;
+      }
+      .success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .warning {
+        background: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>WebGIS Application Test</h1>
+    <div id="test-results"></div>
+
+    <script>
+      function runTests() {
+        const results = [];
+
+        // Test 1: Check if main HTML file exists
+        fetch("index.html")
+          .then((response) => {
+            if (response.ok) {
+              results.push({
+                test: "HTML File",
+                status: "success",
+                message: "index.html accessible",
+              });
+            } else {
+              results.push({
+                test: "HTML File",
+                status: "error",
+                message: "index.html not found",
+              });
+            }
+            return fetch("js/app.js");
+          })
+          .then((response) => {
+            if (response.ok) {
+              results.push({
+                test: "JavaScript Files",
+                status: "success",
+                message: "app.js accessible",
+              });
+            } else {
+              results.push({
+                test: "JavaScript Files",
+                status: "error",
+                message: "app.js not found",
+              });
+            }
+            return fetch("css/style.css");
+          })
+          .then((response) => {
+            if (response.ok) {
+              results.push({
+                test: "CSS Files",
+                status: "success",
+                message: "style.css accessible",
+              });
+            } else {
+              results.push({
+                test: "CSS Files",
+                status: "warning",
+                message: "style.css not found",
+              });
+            }
+            displayResults(results);
+          })
+          .catch((error) => {
+            results.push({
+              test: "Network",
+              status: "error",
+              message: "Network error: " + error.message,
+            });
+            displayResults(results);
+          });
+      }
+
+      function displayResults(results) {
+        const container = document.getElementById("test-results");
+        container.innerHTML = "";
+
+        results.forEach((result) => {
+          const div = document.createElement("div");
+          div.className = `test-result ${result.status}`;
+          div.innerHTML = `<strong>${result.test}:</strong> ${result.message}`;
+          container.appendChild(div);
+        });
+
+        // Add link to main app
+        const link = document.createElement("div");
+        link.innerHTML =
+          '<br><a href="index.html" target="_blank">Open WebGIS Application</a>';
+        container.appendChild(link);
+      }
+
+      // Run tests when page loads
+      window.onload = runTests;
+    </script>
+  </body>
+</html>

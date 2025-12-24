@@ -384,8 +384,32 @@ async function prosesDownloadPeta() {
  * Fungsi untuk export sebagai PNG
  */
 async function exportSebagaiPNG(title) {
-  // Implementasi export PNG menggunakan html2canvas atau leaflet-image
-  tampilkanNotifikasi("info", "Export PNG sedang dalam pengembangan...");
+  try {
+    // Gunakan html2canvas untuk capture peta
+    if (typeof html2canvas === "undefined") {
+      // Jika html2canvas tidak tersedia, buat screenshot sederhana
+      tampilkanNotifikasi(
+        "info",
+        "Menggunakan metode screenshot alternatif..."
+      );
+
+      // Buat canvas dari peta yang ada
+      const mapElement = document.getElementById("peta");
+      if (mapElement) {
+        // Trigger browser print dialog sebagai alternatif
+        window.print();
+        return;
+      }
+    }
+
+    tampilkanNotifikasi("info", "Fitur export PNG akan segera tersedia");
+  } catch (error) {
+    console.error("Error export PNG:", error);
+    tampilkanNotifikasi(
+      "error",
+      "Gagal export PNG. Gunakan export HTML sebagai alternatif."
+    );
+  }
 }
 
 /**
@@ -600,7 +624,30 @@ function buatHTMLInteraktif(title, includeCoordinates) {
  * Fungsi untuk export sebagai PDF
  */
 async function exportSebagaiPDF(title, includeCoordinates) {
-  tampilkanNotifikasi("info", "Export PDF sedang dalam pengembangan...");
+  try {
+    // Buat konten HTML untuk PDF
+    const htmlContent = buatKontenPrint();
+
+    // Buka window baru untuk print ke PDF
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+
+    // Tunggu sebentar lalu trigger print dialog
+    setTimeout(() => {
+      printWindow.print();
+      tampilkanNotifikasi(
+        "success",
+        "Gunakan 'Save as PDF' di dialog print untuk menyimpan sebagai PDF"
+      );
+    }, 1000);
+  } catch (error) {
+    console.error("Error export PDF:", error);
+    tampilkanNotifikasi(
+      "error",
+      "Gagal export PDF. Gunakan print browser sebagai alternatif."
+    );
+  }
 }
 
 /**

@@ -20,8 +20,22 @@ let fasilitasYangDiedit = null; // ID fasilitas yang sedang diedit
 const KOORDINAT_DEFAULT = {
   lat: -6.5877,
   lng: 110.6684,
-  zoom: 12,
+  zoom: 11,
 };
+
+// Batas wilayah Kabupaten Jepara (polygon coordinates)
+const BATAS_JEPARA = [
+  [-6.45, 110.55], // Utara-Barat
+  [-6.42, 110.75], // Utara-Timur
+  [-6.5, 110.82], // Timur-Utara
+  [-6.65, 110.8], // Timur-Selatan
+  [-6.75, 110.72], // Selatan-Timur
+  [-6.78, 110.6], // Selatan-Tengah
+  [-6.72, 110.52], // Selatan-Barat
+  [-6.6, 110.48], // Barat-Selatan
+  [-6.52, 110.46], // Barat-Tengah
+  [-6.45, 110.55], // Kembali ke titik awal
+];
 
 // ============================================
 // INISIALISASI PETA
@@ -40,7 +54,7 @@ function inisialisasiPeta() {
       center: [KOORDINAT_DEFAULT.lat, KOORDINAT_DEFAULT.lng],
       zoom: KOORDINAT_DEFAULT.zoom,
       zoomControl: true,
-      minZoom: 5,
+      minZoom: 9,
       maxZoom: 19,
     });
 
@@ -51,6 +65,9 @@ function inisialisasiPeta() {
       maxZoom: 19,
     }).addTo(peta);
 
+    // Tambahkan batas wilayah Jepara
+    tambahBatasWilayahJepara();
+
     // Inisialisasi marker cluster group
     grupMarker = L.markerClusterGroup({
       spiderfyOnMaxZoom: true,
@@ -60,7 +77,8 @@ function inisialisasiPeta() {
       iconCreateFunction: buatIconCluster,
     });
 
-    peta.addTo(peta);
+    // Tambahkan marker cluster group ke peta
+    peta.addLayer(grupMarker);
 
     // Setup event listener untuk klik pada peta
     peta.on("click", tanganiKlikPeta);
@@ -118,6 +136,15 @@ function buatIconCluster(cluster) {
 function tanganiKlikPeta(e) {
   const lat = e.latlng.lat;
   const lng = e.latlng.lng;
+
+  // Validasi apakah koordinat dalam wilayah Jepara
+  if (!validasiKoordinatJepara(lat, lng)) {
+    tampilkanNotifikasi(
+      "warning",
+      "Koordinat di luar wilayah Kabupaten Jepara. Silakan klik dalam area yang ditandai."
+    );
+    return;
+  }
 
   // Simpan koordinat ke variabel global
   koordinatKlikPeta = { lat, lng };
@@ -759,14 +786,80 @@ function tampilkanKoordinatRealTime(e) {
 }
 
 /**
- * Fungsi untuk toggle display koordinat real-time
+ * Fungsi untuk menambahkan batas wilayah Kabupaten Jepara
  */
-function toggleKoordinatDisplay() {
-  if (koordinatDisplay) {
-    peta.removeControl(koordinatDisplay);
-    koordinatDisplay = null;
-  } else {
-    // Trigger mouse move untuk membuat display
-    peta.fire("mousemove", { latlng: peta.getCenter() });
+function tambahBatasWilayahJepara() {
+  try {
+    // Buat polygon untuk batas wilayah Jepara
+    const batasWilayah = L.polygon(BATAS_JEPARA, {
+      color: "#3b82f6",
+      weight: 3,
+      opacity: 0.8,
+      fillColor: "#3b82f6",
+      fillOpacity: 0.1,
+      dashArray: "10, 5",
+    }).addTo(peta);
+
+    // Tambahkan popup informasi
+    batasWilayah.bindPopup(
+      `
+      <div class="popup-batas-wilayah">
+        <h4>🏛️ Kabupaten Jepara</h4>
+        <p><strong>Provinsi:</strong> Jawa Tengah</p>
+        <p><strong>Luas:</strong> ± 1.004 km²</p>
+        <p><strong>Ibu Kota:</strong> Jepara</p>
+        <p><strong>Kode Pos:</strong> 59xxx</p>
+        <hr style="margin: 8px 0; border: 1px solid #e2e8f0;">
+        <small>Area fokus aplikasi WebGIS Fasilitas Umum</small>
+      </div>
+    `,
+      {
+        className: "popup-batas-wilayah-container",
+      }
+    );
+
+    // Fit peta ke batas wilayah dengan padding
+    const bounds = batasWilayah.getBounds();
+    peta.fitBounds(bounds, {
+      padding: [20, 20],
+      maxZoom: 12,
+    });
+
+    // Simpan referensi untuk kontrol layer
+    window.layerBatasJepara = batasWilayah;
+
+    logConsole("Batas wilayah Jepara berhasil ditambahkan", "success");
+  } catch (error) {
+    console.error("Gagal menambahkan batas wilayah:", error);
+  }
+}
+
+/**
+ * Fungsi untuk toggle tampilan batas wilayah Jepara
+ */
+function toggleBatasWilayah() {
+  if (window.layerBatasJepara) {
+    if (peta.hasLayer(window.layerBatasJepara)) {
+      peta.removeLayer(window.layerBatasJepara);
+      tampilkanNotifikasi("info", "Batas wilayah Jepara disembunyikan");
+    } else {
+      peta.addLayer(window.layerBatasJepara);
+      tampilkanNotifikasi("info", "Batas wilayah Jepara ditampilkan");
+    }
+  }
+}
+
+/**
+ * Fungsi untuk zoom ke batas wilayah Jepara
+ */
+function zoomKeBatasJepara() {
+  if (window.layerBatasJepara) {
+    const bounds = window.layerBatasJepara.getBounds();
+    peta.fitBounds(bounds, {
+      padding: [20, 20],
+      maxZoom: 12,
+      duration: 1,
+    });
+    tampilkanNotifikasi("success", "Peta difokuskan ke wilayah Jepara");
   }
 }

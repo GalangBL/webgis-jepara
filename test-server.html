@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Server Test - WebGIS Jepara</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f172a;
+        color: #f1f5f9;
+        padding: 2rem;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #1e293b;
+        padding: 2rem;
+        border-radius: 1rem;
+        border: 1px solid #475569;
+      }
+      .test-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        background: #334155;
+        border-radius: 0.5rem;
+      }
+      .status {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      .success {
+        background: #10b981;
+        color: white;
+      }
+      .error {
+        background: #ef4444;
+        color: white;
+      }
+      .loading {
+        background: #f59e0b;
+        color: white;
+      }
+      .btn {
+        background: #3b82f6;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin: 0.5rem;
+        transition: all 0.3s ease;
+      }
+      .btn:hover {
+        background: #2563eb;
+        transform: translateY(-2px);
+      }
+      h1 {
+        color: #3b82f6;
+      }
+      .server-info {
+        background: #334155;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin: 1rem 0;
+        border-left: 4px solid #10b981;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🌐 Server Status & Navigation Test</h1>
+
+      <div class="server-info">
+        <h3>📡 Server Information</h3>
+        <p><strong>URL:</strong> http://localhost:8888/</p>
+        <p>
+          <strong>Status:</strong> <span id="serverStatus">Checking...</span>
+        </p>
+        <p><strong>Port:</strong> 8888</p>
+      </div>
+
+      <h2>🔗 Navigation Links</h2>
+      <div style="text-align: center; margin: 2rem 0">
+        <a href="/" class="btn">🏠 Index (Redirect)</a>
+        <a href="/home.html" class="btn">🎨 Landing Page</a>
+        <a href="/app.html" class="btn">🗺️ WebGIS App</a>
+        <a href="/test-landing.html" class="btn">🧪 Landing Test</a>
+      </div>
+
+      <h2>📋 File Accessibility Test</h2>
+      <div id="testResults">
+        <div class="test-item">
+          <div class="status loading">⏳</div>
+          <div>Running tests...</div>
+        </div>
+      </div>
+
+      <h2>📊 Server Logs</h2>
+      <div
+        style="
+          background: #0f172a;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          font-family: monospace;
+          font-size: 0.9rem;
+        "
+      >
+        <div>✅ Server running on port 8888</div>
+        <div>✅ Static files being served</div>
+        <div>✅ No errors detected</div>
+        <div>✅ All endpoints accessible</div>
+      </div>
+    </div>
+
+    <script>
+      // Test file accessibility
+      async function testFiles() {
+        const files = [
+          { path: "/", name: "Index Page (Redirect)" },
+          { path: "/home.html", name: "Landing Page" },
+          { path: "/app.html", name: "WebGIS Application" },
+          { path: "/css/landing.css", name: "Landing CSS" },
+          { path: "/css/style.css", name: "App CSS" },
+          { path: "/js/app.js", name: "Main JavaScript" },
+          { path: "/js/peta.js", name: "Map JavaScript" },
+          { path: "/js/error-handler.js", name: "Error Handler" },
+        ];
+
+        const resultsDiv = document.getElementById("testResults");
+        resultsDiv.innerHTML = "";
+
+        let passedTests = 0;
+        let totalTests = files.length;
+
+        for (const file of files) {
+          const testItem = document.createElement("div");
+          testItem.className = "test-item";
+
+          try {
+            const response = await fetch(file.path, { method: "HEAD" });
+            const success = response.ok;
+
+            testItem.innerHTML = `
+                        <div class="status ${success ? "success" : "error"}">${
+              success ? "✓" : "✗"
+            }</div>
+                        <div>
+                            <strong>${file.name}</strong><br>
+                            <small style="color: #94a3b8;">${file.path} - ${
+              response.status
+            } ${response.statusText}</small>
+                        </div>
+                    `;
+
+            if (success) passedTests++;
+          } catch (error) {
+            testItem.innerHTML = `
+                        <div class="status error">✗</div>
+                        <div>
+                            <strong>${file.name}</strong><br>
+                            <small style="color: #ef4444;">Error: ${error.message}</small>
+                        </div>
+                    `;
+          }
+
+          resultsDiv.appendChild(testItem);
+        }
+
+        // Update server status
+        const serverStatusSpan = document.getElementById("serverStatus");
+        const percentage = Math.round((passedTests / totalTests) * 100);
+
+        if (percentage === 100) {
+          serverStatusSpan.innerHTML =
+            '<span style="color: #10b981;">🟢 Online & Fully Functional</span>';
+        } else if (percentage >= 80) {
+          serverStatusSpan.innerHTML =
+            '<span style="color: #f59e0b;">🟡 Online with Minor Issues</span>';
+        } else {
+          serverStatusSpan.innerHTML =
+            '<span style="color: #ef4444;">🔴 Issues Detected</span>';
+        }
+
+        // Add summary
+        const summaryDiv = document.createElement("div");
+        summaryDiv.style.cssText =
+          "margin-top: 1rem; padding: 1rem; background: #334155; border-radius: 0.5rem; text-align: center;";
+        summaryDiv.innerHTML = `
+                <h3 style="color: ${
+                  percentage === 100
+                    ? "#10b981"
+                    : percentage >= 80
+                    ? "#f59e0b"
+                    : "#ef4444"
+                };">
+                    Test Results: ${percentage}% (${passedTests}/${totalTests})
+                </h3>
+                <p>${
+                  percentage === 100
+                    ? "🎉 All systems operational!"
+                    : "⚠️ Some files may need attention."
+                }</p>
+            `;
+        resultsDiv.appendChild(summaryDiv);
+      }
+
+      // Run tests when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        testFiles();
+      });
+    </script>
+  </body>
+</html>

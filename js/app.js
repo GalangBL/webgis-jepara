@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     logConsole("✓ Peta berhasil diinisialisasi", "success");
   } catch (error) {
     console.error("✗ Gagal inisialisasi peta:", error);
+    tampilkanNotifikasi("error", "Gagal memuat peta. Mohon refresh halaman.");
   }
 
   // 2. Load Data dari localStorage
@@ -66,6 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
     if (typeof lucide !== "undefined") {
       lucide.createIcons();
       logConsole("✓ Lucide icons diinisialisasi", "success");
+    } else {
+      console.warn("Lucide icons tidak tersedia");
     }
   } catch (error) {
     console.error("✗ Gagal inisialisasi icons:", error);
@@ -73,6 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 8. Sembunyikan Loading Screen
   sembunyikanLoading();
+
+  // 9. Test semua fungsi penting
+  testFungsionalitas();
 
   logConsole("========================================", "info");
   logConsole("✓ Aplikasi siap digunakan!", "success");
@@ -83,6 +89,44 @@ document.addEventListener("DOMContentLoaded", function () {
     tampilkanNotifikasi("success", "Selamat datang di WebGIS Fasilitas Umum!");
   }, 1000);
 });
+
+/**
+ * Fungsi untuk test fungsionalitas utama
+ */
+function testFungsionalitas() {
+  const tests = [
+    { name: "Peta", check: () => peta !== null },
+    { name: "Marker Cluster", check: () => grupMarker !== null },
+    {
+      name: "Form Fasilitas",
+      check: () => document.getElementById("formFasilitas") !== null,
+    },
+    {
+      name: "Input Pencarian",
+      check: () => document.getElementById("inputPencarian") !== null,
+    },
+    {
+      name: "Tombol GPS",
+      check: () => document.getElementById("btnLokasiSayaForm") !== null,
+    },
+    {
+      name: "Tabel Fasilitas",
+      check: () => document.getElementById("tabelFasilitas") !== null,
+    },
+  ];
+
+  tests.forEach((test) => {
+    try {
+      if (test.check()) {
+        logConsole(`✓ ${test.name} OK`, "success");
+      } else {
+        logConsole(`✗ ${test.name} GAGAL`, "error");
+      }
+    } catch (error) {
+      logConsole(`✗ ${test.name} ERROR: ${error.message}`, "error");
+    }
+  });
+}
 
 // ============================================
 // GLOBAL ERROR HANDLER

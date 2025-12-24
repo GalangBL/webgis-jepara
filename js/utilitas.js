@@ -91,6 +91,38 @@ function validasiKoordinat(lat, lng) {
   return true;
 }
 
+/**
+ * Fungsi untuk validasi koordinat dalam wilayah Jepara
+ * @param {number} lat - Latitude
+ * @param {number} lng - Longitude
+ * @returns {boolean} - True jika dalam wilayah Jepara
+ */
+function validasiKoordinatJepara(lat, lng) {
+  // Validasi dasar dulu
+  if (!validasiKoordinat(lat, lng)) {
+    return false;
+  }
+
+  // Batas wilayah Jepara
+  const BATAS_JEPARA_VALIDASI = {
+    south: -6.78,
+    west: 110.46,
+    north: -6.42,
+    east: 110.82,
+  };
+
+  // Cek apakah koordinat dalam batas Jepara
+  if (lat < BATAS_JEPARA_VALIDASI.south || lat > BATAS_JEPARA_VALIDASI.north) {
+    return false;
+  }
+
+  if (lng < BATAS_JEPARA_VALIDASI.west || lng > BATAS_JEPARA_VALIDASI.east) {
+    return false;
+  }
+
+  return true;
+}
+
 // ============================================
 // DEBOUNCE FUNCTION
 // ============================================

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Sistem Informasi Geografis Pemetaan Fasilitas Umum Kabupaten Jepara - Platform digital terdepan untuk pemetaan dan pengelolaan fasilitas umum dengan teknologi GIS modern"
+    />
+    <meta
+      name="keywords"
+      content="WebGIS, Jepara, GIS, Pemetaan, Fasilitas Umum, Sistem Informasi Geografis, Leaflet, Interactive Map"
+    />
+    <meta name="author" content="WebGIS Jepara Development Team" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph Meta Tags -->
+    <meta
+      property="og:title"
+      content="WebGIS Jepara - Sistem Informasi Geografis Fasilitas Umum"
+    />
+    <meta
+      property="og:description"
+      content="Platform digital terdepan untuk pemetaan dan pengelolaan fasilitas umum di Kabupaten Jepara dengan teknologi GIS modern"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://localhost:8888/" />
+    <meta property="og:site_name" content="WebGIS Jepara" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="WebGIS Jepara - Sistem Informasi Geografis Fasilitas Umum"
+    />
+    <meta
+      name="twitter:description"
+      content="Platform digital terdepan untuk pemetaan dan pengelolaan fasilitas umum di Kabupaten Jepara"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗺️</text></svg>"
+    />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="WebGIS Jepara" />
+
+    <title>WebGIS Jepara - Sistem Informasi Geografis Fasilitas Umum</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Landing Page Styles -->
+    <link rel="stylesheet" href="css/landing.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1>WebGIS Jepara</h1>
+          <p class="subtitle">Sistem Informasi Geografis Fasilitas Umum</p>
+          <p class="description">
+            Platform digital terdepan untuk pemetaan dan pengelolaan fasilitas
+            umum di Kabupaten Jepara. Dilengkapi dengan teknologi GIS modern,
+            pencarian cerdas, dan validasi wilayah otomatis.
+          </p>
+          <div class="cta-buttons">
+            <a href="app.html" class="btn btn-primary">
+              <i data-lucide="map"></i>
+              Buka Aplikasi
+            </a>
+            <a href="#features" class="btn btn-secondary">
+              <i data-lucide="info"></i>
+              Pelajari Lebih Lanjut
+            </a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="map-preview">
+            <div class="map-preview-content">
+              <i data-lucide="map-pin" class="map-icon"></i>
+              <h3>Peta Interaktif</h3>
+              <p>Jelajahi fasilitas umum di Kabupaten Jepara</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Fitur Unggulan</h2>
+          <p>
+            Teknologi GIS terdepan untuk pengelolaan fasilitas umum yang efektif
+            dan efisien
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <i data-lucide="search" class="feature-icon"></i>
+            <h3>Pencarian Cerdas</h3>
+            <p>
+              Sistem pencarian otomatis dengan integrasi Nominatim API, deteksi
+              kategori, dan fallback data lokal untuk hasil yang akurat.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i data-lucide="map" class="feature-icon"></i>
+            <h3>Peta Interaktif</h3>
+            <p>
+              Peta berbasis Leaflet dengan marker clustering, batas wilayah
+              Jepara, dan kontrol navigasi yang responsif.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i data-lucide="shield-check" class="feature-icon"></i>
+            <h3>Validasi Wilayah</h3>
+            <p>
+              Validasi koordinat otomatis untuk memastikan semua data fasilitas
+              berada dalam batas Kabupaten Jepara.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i data-lucide="database" class="feature-icon"></i>
+            <h3>Manajemen Data</h3>
+            <p>
+              CRUD lengkap dengan localStorage, export multi-format (JSON,
+              GeoJSON, KML), dan import data yang mudah.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i data-lucide="smartphone" class="feature-icon"></i>
+            <h3>Responsive Design</h3>
+            <p>
+              Antarmuka yang responsif dan mobile-friendly, dapat diakses dari
+              desktop, tablet, maupun smartphone.
+            </p>
+          </div>
+          <div class="feature-card">
+            <i data-lucide="bar-chart-3" class="feature-icon"></i>
+            <h3>Statistik & Analytics</h3>
+            <p>
+              Dashboard statistik dengan chart interaktif, analisis distribusi
+              fasilitas, dan laporan komprehensif.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number">16</span>
+            <span class="stat-label">Kecamatan</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">1,004</span>
+            <span class="stat-label">Km² Luas Wilayah</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">8</span>
+            <span class="stat-label">Kategori Fasilitas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Akurasi Data</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <h2>Siap Memulai Pemetaan?</h2>
+        <p>
+          Mulai jelajahi dan kelola fasilitas umum di Kabupaten Jepara dengan
+          teknologi GIS terdepan. Gratis dan mudah digunakan untuk semua
+          kalangan.
+        </p>
+        <a href="app.html" class="btn">
+          <i data-lucide="rocket"></i>
+          Mulai Sekarang
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>WebGIS Jepara</h3>
+            <p>
+              Sistem Informasi Geografis untuk pemetaan fasilitas umum di
+              Kabupaten Jepara. Dikembangkan dengan teknologi modern untuk
+              kemudahan akses dan pengelolaan data spasial.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3>Fitur Utama</h3>
+            <p><a href="#features">Pencarian Cerdas</a></p>
+            <p><a href="#features">Peta Interaktif</a></p>
+            <p><a href="#features">Validasi Wilayah</a></p>
+            <p><a href="#features">Export Data</a></p>
+          </div>
+          <div class="footer-section">
+            <h3>Teknologi</h3>
+            <p>Leaflet.js - Peta Interaktif</p>
+            <p>Chart.js - Visualisasi Data</p>
+            <p>Nominatim API - Geocoding</p>
+            <p>HTML5, CSS3, JavaScript</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>
+            &copy; 2024 WebGIS Jepara. Dikembangkan untuk keperluan edukasi dan
+            penelitian.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Add loading animation for CTA buttons
+      document.querySelectorAll(".btn-primary").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          if (this.href && this.href.includes("app.html")) {
+            e.preventDefault();
+
+            // Add loading state
+            const originalText = this.innerHTML;
+            this.innerHTML =
+              '<i data-lucide="loader-2" style="animation: spin 1s linear infinite;"></i> Memuat Aplikasi...';
+            this.style.pointerEvents = "none";
+
+            // Recreate icons for the loader
+            lucide.createIcons();
+
+            // Navigate after short delay
+            setTimeout(() => {
+              window.location.href = this.getAttribute("href");
+            }, 1500);
+          }
+        });
+      });
+
+      // Add CSS for spin animation
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Counter animation for stats
+      function animateCounter(element, target, duration = 2000) {
+        let start = 0;
+        const increment = target / (duration / 16);
+
+        const timer = setInterval(() => {
+          start += increment;
+          if (start >= target) {
+            element.textContent = target.toLocaleString();
+            clearInterval(timer);
+          } else {
+            element.textContent = Math.floor(start).toLocaleString();
+          }
+        }, 16);
+      }
+
+      // Animate counters when stats section is visible
+      const statsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const numbers = entry.target.querySelectorAll(".stat-number");
+              numbers.forEach((num) => {
+                const target = parseInt(num.textContent.replace(/,/g, ""));
+                if (!isNaN(target)) {
+                  animateCounter(num, target);
+                }
+              });
+              statsObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      const statsSection = document.querySelector(".stats");
+      if (statsSection) {
+        statsObserver.observe(statsSection);
+      }
+
+      // Add scroll-to-top functionality
+      const scrollToTopBtn = document.createElement("button");
+      scrollToTopBtn.innerHTML = '<i data-lucide="arrow-up"></i>';
+      scrollToTopBtn.className = "scroll-to-top";
+      scrollToTopBtn.style.cssText = `
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #3b82f6, #10b981);
+        border: none;
+        color: white;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+        z-index: 1000;
+      `;
+
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      scrollToTopBtn.addEventListener("mouseenter", () => {
+        scrollToTopBtn.style.transform = "translateY(-2px)";
+        scrollToTopBtn.style.boxShadow = "0 6px 20px rgba(59, 130, 246, 0.4)";
+      });
+
+      scrollToTopBtn.addEventListener("mouseleave", () => {
+        scrollToTopBtn.style.transform = "translateY(0)";
+        scrollToTopBtn.style.boxShadow = "0 4px 12px rgba(59, 130, 246, 0.3)";
+      });
+
+      document.body.appendChild(scrollToTopBtn);
+
+      // Show/hide scroll to top button
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.style.display = "flex";
+        } else {
+          scrollToTopBtn.style.display = "none";
+        }
+      });
+
+      // Add page load analytics (simple)
+      const pageLoadTime = performance.now();
+      console.log(
+        `%c🚀 Landing page loaded in ${Math.round(pageLoadTime)}ms`,
+        "color: #10b981; font-weight: bold;"
+      );
+
+      // Add keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        // Press 'A' to go to app
+        if (e.key.toLowerCase() === "a" && !e.ctrlKey && !e.altKey) {
+          const appBtn = document.querySelector('a[href="app.html"]');
+          if (appBtn) appBtn.click();
+        }
+
+        // Press 'H' to go to top
+        if (e.key.toLowerCase() === "h" && !e.ctrlKey && !e.altKey) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        // Press 'F' to go to features
+        if (e.key.toLowerCase() === "f" && !e.ctrlKey && !e.altKey) {
+          const featuresSection = document.querySelector("#features");
+          if (featuresSection) {
+            featuresSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      });
+
+      // Initialize all icons after DOM modifications
+      setTimeout(() => {
+        lucide.createIcons();
+      }, 100);
+
+      // Add console welcome message
+      console.log(
+        `%c
+      🗺️ WebGIS Jepara - Landing Page
+      ================================
+      
+      Keyboard Shortcuts:
+      • Press 'A' → Go to App
+      • Press 'H' → Go to Top  
+      • Press 'F' → Go to Features
+      
+      Performance: ${Math.round(pageLoadTime)}ms
+      Status: Ready for Production ✅
+      `,
+        "color: #3b82f6; font-family: monospace;"
+      );
+
+      // Register Service Worker for PWA functionality
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((registration) => {
+              console.log(
+                "✅ Service Worker registered successfully:",
+                registration.scope
+              );
+            })
+            .catch((error) => {
+              console.log("❌ Service Worker registration failed:", error);
+            });
+        });
+      }
+
+      // PWA Install prompt
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+
+        // Show install button if not already installed
+        const installBtn = document.createElement("button");
+        installBtn.innerHTML = '<i data-lucide="download"></i> Install App';
+        installBtn.className = "btn btn-secondary";
+        installBtn.style.cssText =
+          "position: fixed; top: 1rem; right: 1rem; z-index: 1000;";
+
+        installBtn.addEventListener("click", () => {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === "accepted") {
+              console.log("✅ PWA install accepted");
+            }
+            deferredPrompt = null;
+            installBtn.remove();
+          });
+        });
+
+        document.body.appendChild(installBtn);
+        lucide.createIcons();
+      });
+    </script>
+  </body>
+</html>

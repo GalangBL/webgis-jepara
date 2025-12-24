@@ -2202,3 +2202,78 @@ body {
     gap: 0.5rem;
   }
 }
+/* ============================================
+   BATAS WILAYAH JEPARA STYLES
+   ============================================ */
+
+/* Popup untuk batas wilayah */
+.popup-batas-wilayah {
+  font-family: "Inter", sans-serif;
+  max-width: 250px;
+}
+
+.popup-batas-wilayah h4 {
+  margin: 0 0 8px 0;
+  color: var(--accent-blue);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.popup-batas-wilayah p {
+  margin: 4px 0;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.popup-batas-wilayah small {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.popup-batas-wilayah-container .leaflet-popup-content-wrapper {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.popup-batas-wilayah-container .leaflet-popup-tip {
+  background: var(--bg-secondary);
+}
+
+/* Map controls untuk batas wilayah */
+.map-control-btn[title*="Batas"] {
+  background: var(--accent-blue);
+}
+
+.map-control-btn[title*="Batas"]:hover {
+  background: var(--accent-blue-hover);
+  transform: translateY(-2px);
+}
+
+.map-control-btn[title*="Zoom"] {
+  background: var(--accent-green);
+}
+
+.map-control-btn[title*="Zoom"]:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+/* Animasi untuk polygon batas wilayah */
+@keyframes borderPulse {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+/* Leaflet polygon styling enhancement */
+.leaflet-interactive[stroke="#3b82f6"] {
+  animation: borderPulse 3s ease-in-out infinite;
+}

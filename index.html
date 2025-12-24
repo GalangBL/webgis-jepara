@@ -3,601 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Sistem Informasi Geografis Pemetaan Fasilitas Umum"
-    />
-    <title>WebGIS - Pemetaan Fasilitas Umum</title>
-
-    <!-- Leaflet CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-
-    <!-- Leaflet MarkerCluster CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
-    />
-
-    <!-- Leaflet Draw CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css"
-    />
-
-    <!-- Google Fonts - Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/responsive.css" />
+    <meta http-equiv="refresh" content="0; url=home.html" />
+    <title>WebGIS Jepara - Redirecting...</title>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: #0f172a;
+        color: #f1f5f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+      }
+      .redirect-message {
+        max-width: 400px;
+        padding: 2rem;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #334155;
+        border-top: 4px solid #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    <!-- Loading Screen -->
-    <div id="loadingScreen" class="loading-screen">
-      <div class="loading-spinner"></div>
-      <p>Memuat Aplikasi...</p>
+    <div class="redirect-message">
+      <div class="spinner"></div>
+      <h2>WebGIS Jepara</h2>
+      <p>Mengalihkan ke halaman utama...</p>
+      <p>
+        <a href="home.html">Klik di sini jika tidak dialihkan otomatis</a>
+      </p>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-      <div class="header-content">
-        <div class="header-left">
-          <i data-lucide="map" class="logo-icon"></i>
-          <div class="header-text">
-            <h1>Sistem Informasi Geografis</h1>
-            <p>Pemetaan Fasilitas Umum</p>
-          </div>
-        </div>
-        <div class="header-stats">
-          <div class="stat-card">
-            <i data-lucide="map-pin" class="stat-icon"></i>
-            <div class="stat-info">
-              <h3 id="totalFasilitas">0</h3>
-              <p>Total Fasilitas</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <i data-lucide="school" class="stat-icon"></i>
-            <div class="stat-info">
-              <h3 id="totalSekolah">0</h3>
-              <p>Sekolah</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <i data-lucide="hospital" class="stat-icon"></i>
-            <div class="stat-info">
-              <h3 id="totalRumahSakit">0</h3>
-              <p>Rumah Sakit</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Container -->
-    <div class="container">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <!-- Tab Navigation -->
-        <div class="sidebar-tabs">
-          <button class="tab-btn active" data-tab="form">
-            <i data-lucide="plus-circle"></i>
-            <span>Tambah Data</span>
-          </button>
-          <button class="tab-btn" data-tab="filter">
-            <i data-lucide="filter"></i>
-            <span>Filter</span>
-          </button>
-          <button class="tab-btn" data-tab="stats">
-            <i data-lucide="bar-chart-3"></i>
-            <span>Statistik</span>
-          </button>
-        </div>
-
-        <!-- Form Tab -->
-        <div class="tab-content active" id="tabForm">
-          <div class="section-header">
-            <i data-lucide="plus-circle"></i>
-            <h3>Tambah Fasilitas Baru</h3>
-          </div>
-
-          <form id="formFasilitas" class="form-fasilitas">
-            <!-- Pencarian Cerdas Utama -->
-            <div class="form-group">
-              <label for="inputPencarian">
-                <i data-lucide="search"></i>
-                Cari Fasilitas Umum
-              </label>
-              <div class="search-container">
-                <input
-                  type="text"
-                  id="inputPencarian"
-                  placeholder="Ketik nama tempat: SD Negeri 1 Jepara, Rumah Sakit Kartini, Masjid Al-Ikhlas..."
-                />
-                <button type="button" id="btnCariLokasi" class="btn-search">
-                  <i data-lucide="search"></i>
-                </button>
-              </div>
-              <div id="hasilPencarian" class="search-results"></div>
-            </div>
-
-            <!-- Quick Search Buttons -->
-            <div class="quick-search-section">
-              <label>Pencarian Cepat:</label>
-              <div class="quick-search-buttons">
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="sekolah dasar jepara"
-                >
-                  🏫 Sekolah
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="rumah sakit jepara"
-                >
-                  🏥 Rumah Sakit
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="masjid jepara"
-                >
-                  🕌 Masjid
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="bank jepara"
-                >
-                  🏦 Bank
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="kantor pemerintahan jepara"
-                >
-                  🏢 Kantor
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="pasar jepara"
-                >
-                  🏪 Pasar
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="taman jepara"
-                >
-                  🏞️ Taman
-                </button>
-                <button
-                  type="button"
-                  class="quick-search-btn"
-                  data-query="universitas jepara"
-                >
-                  🎓 Universitas
-                </button>
-              </div>
-            </div>
-
-            <!-- GPS Location -->
-            <div class="gps-section">
-              <button type="button" id="btnLokasiSayaForm" class="btn btn-gps">
-                <i data-lucide="navigation"></i>
-                Gunakan Lokasi Saya (GPS)
-              </button>
-            </div>
-
-            <!-- Data Terpilih (Hidden sampai ada yang dipilih) -->
-            <div id="dataPreview" class="data-preview" style="display: none">
-              <h4>
-                <i data-lucide="check-circle"></i>
-                Data Fasilitas Terpilih
-              </h4>
-              <div class="preview-content">
-                <div class="preview-item">
-                  <strong>Nama:</strong> <span id="previewNama">-</span>
-                </div>
-                <div class="preview-item">
-                  <strong>Kategori:</strong> <span id="previewKategori">-</span>
-                </div>
-                <div class="preview-item">
-                  <strong>Alamat:</strong> <span id="previewAlamat">-</span>
-                </div>
-                <div class="preview-item">
-                  <strong>Koordinat:</strong>
-                  <span id="previewKoordinat">-</span>
-                </div>
-              </div>
-
-              <!-- Hidden inputs untuk data -->
-              <input type="hidden" id="inputNama" />
-              <input type="hidden" id="inputKategori" />
-              <input type="hidden" id="inputAlamat" />
-              <input type="hidden" id="inputLat" />
-              <input type="hidden" id="inputLng" />
-
-              <!-- Deskripsi opsional -->
-              <div class="form-group">
-                <label for="inputDeskripsi">
-                  <i data-lucide="align-left"></i>
-                  Deskripsi Tambahan (Opsional)
-                </label>
-                <textarea
-                  id="inputDeskripsi"
-                  rows="2"
-                  placeholder="Tambahkan deskripsi jika diperlukan..."
-                ></textarea>
-              </div>
-            </div>
-
-            <!-- Info Box -->
-            <div class="info-box">
-              <i data-lucide="lightbulb"></i>
-              <div>
-                <p><strong>Cara Menggunakan:</strong></p>
-                <ul>
-                  <li>Ketik nama tempat di kotak pencarian</li>
-                  <li>Atau klik tombol pencarian cepat</li>
-                  <li>Atau gunakan GPS untuk lokasi Anda</li>
-                  <li>Pilih hasil pencarian yang sesuai</li>
-                  <li>Klik "Simpan Fasilitas"</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- Form Actions -->
-            <div class="form-actions">
-              <button
-                type="submit"
-                class="btn btn-primary"
-                id="btnSimpan"
-                disabled
-              >
-                <i data-lucide="save"></i>
-                Simpan Fasilitas
-              </button>
-              <button type="button" class="btn btn-secondary" id="btnReset">
-                <i data-lucide="rotate-ccw"></i>
-                Reset
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Filter Tab -->
-        <div class="tab-content" id="tabFilter">
-          <div class="section-header">
-            <i data-lucide="filter"></i>
-            <h3>Filter Data</h3>
-          </div>
-
-          <div class="filter-section">
-            <label>
-              <i data-lucide="search"></i>
-              Cari Nama Fasilitas
-            </label>
-            <input
-              type="text"
-              id="inputCari"
-              placeholder="Ketik nama fasilitas..."
-            />
-          </div>
-
-          <div class="filter-section">
-            <label>
-              <i data-lucide="tag"></i>
-              Filter Berdasarkan Kategori
-            </label>
-            <div class="checkbox-group" id="filterKategori">
-              <!-- Akan diisi oleh JavaScript -->
-            </div>
-          </div>
-
-          <button class="btn btn-secondary btn-block" id="btnResetFilter">
-            <i data-lucide="x-circle"></i>
-            Reset Semua Filter
-          </button>
-        </div>
-
-        <!-- Stats Tab -->
-        <div class="tab-content" id="tabStats">
-          <div class="section-header">
-            <i data-lucide="bar-chart-3"></i>
-            <h3>Statistik Data</h3>
-          </div>
-
-          <div class="chart-container">
-            <canvas id="chartKategori"></canvas>
-          </div>
-
-          <div class="stats-list">
-            <h4>Rincian Per Kategori</h4>
-            <div id="statsDetail">
-              <!-- Akan diisi oleh JavaScript -->
-            </div>
-          </div>
-
-          <div class="export-section">
-            <h4>Export Data</h4>
-            <button class="btn btn-secondary btn-block" id="btnExportJSON">
-              <i data-lucide="download"></i>
-              Download JSON
-            </button>
-            <button class="btn btn-secondary btn-block" id="btnExportGeoJSON">
-              <i data-lucide="map"></i>
-              Download GeoJSON
-            </button>
-            <button class="btn btn-secondary btn-block" id="btnExportPeta">
-              <i data-lucide="camera"></i>
-              Export Peta sebagai Gambar
-            </button>
-            <button class="btn btn-secondary btn-block" id="btnPrintPeta">
-              <i data-lucide="printer"></i>
-              Print Peta Interaktif
-            </button>
-            <button class="btn btn-secondary btn-block" id="btnExportKML">
-              <i data-lucide="globe"></i>
-              Export KML (Google Earth)
-            </button>
-            <button class="btn btn-secondary btn-block" id="btnExportLengkap">
-              <i data-lucide="database"></i>
-              Export Data Lengkap + QR
-            </button>
-          </div>
-
-          <div class="import-section">
-            <h4>Import Data</h4>
-            <input
-              type="file"
-              id="inputImport"
-              accept=".json"
-              style="display: none"
-            />
-            <button class="btn btn-secondary btn-block" id="btnImport">
-              <i data-lucide="upload"></i>
-              Import JSON
-            </button>
-          </div>
-        </div>
-      </aside>
-
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Map Container -->
-        <div class="map-wrapper">
-          <div id="peta" class="map"></div>
-
-          <!-- Map Controls Overlay -->
-          <div class="map-controls">
-            <button
-              class="map-control-btn"
-              id="btnPusatkanPeta"
-              title="Pusatkan Peta"
-            >
-              <i data-lucide="crosshair"></i>
-            </button>
-            <button
-              class="map-control-btn"
-              id="btnLokasiSaya"
-              title="Lokasi Saya"
-            >
-              <i data-lucide="navigation"></i>
-            </button>
-            <button
-              class="map-control-btn"
-              id="btnToggleKoordinat"
-              title="Toggle Koordinat Real-time"
-            >
-              <i data-lucide="crosshair"></i>
-            </button>
-            <button
-              class="map-control-btn"
-              id="btnToggleTabel"
-              title="Toggle Tabel"
-            >
-              <i data-lucide="table"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Table Container -->
-        <div class="table-container" id="tableContainer">
-          <div class="table-header">
-            <div class="table-title">
-              <i data-lucide="database"></i>
-              <h3>Data Fasilitas</h3>
-            </div>
-            <div class="table-actions">
-              <span class="data-count">
-                Total: <strong id="totalData">0</strong> fasilitas
-              </span>
-            </div>
-          </div>
-
-          <div class="table-wrapper">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nama Fasilitas</th>
-                  <th>Kategori</th>
-                  <th>Alamat</th>
-                  <th>Koordinat</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="tabelFasilitas">
-                <tr class="empty-state">
-                  <td colspan="6">
-                    <i data-lucide="inbox"></i>
-                    <p>Belum ada data fasilitas</p>
-                    <small
-                      >Klik pada peta atau isi form untuk menambah data</small
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Pagination -->
-          <div class="pagination" id="pagination">
-            <!-- Akan diisi oleh JavaScript -->
-          </div>
-        </div>
-      </main>
-    </div>
-
-    <!-- Modal Edit -->
-    <div class="modal" id="modalEdit">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>
-            <i data-lucide="pencil"></i>
-            Edit Fasilitas
-          </h3>
-          <button class="btn-close" id="btnCloseModal">
-            <i data-lucide="x"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="formEdit">
-            <input type="hidden" id="editId" />
-
-            <div class="form-group">
-              <label for="editNama">
-                <i data-lucide="type"></i>
-                Nama Fasilitas
-              </label>
-              <input type="text" id="editNama" required />
-            </div>
-
-            <div class="form-group">
-              <label for="editKategori">
-                <i data-lucide="tag"></i>
-                Kategori
-              </label>
-              <select id="editKategori" required>
-                <option value="Sekolah">🏫 Sekolah</option>
-                <option value="Rumah Sakit">🏥 Rumah Sakit</option>
-                <option value="Kantor Pemerintahan">
-                  🏢 Kantor Pemerintahan
-                </option>
-                <option value="Masjid">🕌 Masjid</option>
-                <option value="Taman">🏞️ Taman</option>
-                <option value="Pasar">🏪 Pasar</option>
-                <option value="Bank">🏦 Bank</option>
-                <option value="Universitas">🎓 Universitas</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="editAlamat">
-                <i data-lucide="map-pin"></i>
-                Alamat
-              </label>
-              <input type="text" id="editAlamat" />
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="editLat">
-                  <i data-lucide="navigation"></i>
-                  Latitude
-                </label>
-                <input type="number" id="editLat" step="any" required />
-              </div>
-              <div class="form-group">
-                <label for="editLng">
-                  <i data-lucide="navigation"></i>
-                  Longitude
-                </label>
-                <input type="number" id="editLng" step="any" required />
-              </div>
-            </div>
-
-            <div class="info-box">
-              <i data-lucide="info"></i>
-              <p>Klik pada peta untuk mengubah lokasi fasilitas</p>
-            </div>
-
-            <div class="form-group">
-              <label for="editDeskripsi">
-                <i data-lucide="align-left"></i>
-                Deskripsi
-              </label>
-              <textarea id="editDeskripsi" rows="3"></textarea>
-            </div>
-
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">
-                <i data-lucide="save"></i>
-                Update Data
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                id="btnCancelEdit"
-              >
-                <i data-lucide="x"></i>
-                Batal
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-      <i data-lucide="check-circle" id="toastIcon"></i>
-      <span id="toastMessage">Notifikasi</span>
-    </div>
-
-    <!-- JavaScript Libraries -->
-
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- Leaflet MarkerCluster -->
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-
-    <!-- Leaflet Draw -->
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Custom JavaScript -->
-    <script src="js/utilitas.js"></script>
-    <script src="js/peta.js"></script>
-    <script src="js/crud.js"></script>
-    <script src="js/pencarian.js"></script>
-    <script src="js/export-peta.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
+    <script>
+      // Fallback redirect jika meta refresh tidak bekerja
+      setTimeout(() => {
+        window.location.href = "home.html";
+      }, 1000);
+    </script>
   </body>
 </html>
